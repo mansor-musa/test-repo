@@ -1,0 +1,14 @@
+- name: CONFIG FW POLICY PACKAGES AND FOLDERS
+  hosts: FortiManager
+  connection: httpapi
+  gather_facts: False
+
+  tasks:
+  - name: INSTALL PACKAGE
+    fmgr_fwpol_package:
+      mode: "set"
+      adom: "root"
+      name: "FortiGate-VM64_root"
+      object_type: "install"
+      scope_members: "FortiGate-VM64"
+      scope_members_vdom: "root"

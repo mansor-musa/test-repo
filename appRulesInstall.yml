@@ -1,0 +1,48 @@
+---
+- name: CONFIGURE FIREWALL POLICY
+  hosts: FortiManager
+  connection: httpapi
+  gather_facts: False
+
+  tasks:
+  - name: ADD IPv4 IP ADDRESS OBJECT
+    fmgr_fwobj_address:
+      ipv4: "ipmask"
+      ipv4addr: "{{ item.value.ip }}"
+      name: "{{ item.key }}"
+      comment: "Created by Ansible"
+      color: "{{ item.value.colour }}"
+    with_dict: "{{ addresses }}"
+
+  - name: ADD POLICIES
+    fmgr_fwpol_ipv4:
+      mode: "set"
+      adom: "{{ item.value.adom }}"
+      package_name: "{{ item.value.package_name }}"
+      name: "{{ item.value.name }}"
+      comments: "Created by Ansible"
+      action: "{{ item.value.action }}"
+      dstaddr: "{{ item.value.dst }}"
+      srcaddr: "{{ item.value.src }}"
+      dstintf: "{{ item.value.dstint }}"
+      srcintf: "{{ item.value.srcint }}"
+      logtraffic: "{{ item.value.log }}"
+      service: "{{ item.value.service }}"
+      schedule: "always"
+    ignore_errors: yes
+    ignore_unreachable: yes
+    with_dict: "{{ rules }}"
+
+
+  - name: INSTALL PACKAGE
+    fmgr_fwpol_package:
+      mode: "set"
+      adom: "{{ item.value.adom }}"
+      name: "{{ item.value.package_name }}"
+      object_type: "install"
+      scope_members: "{{ item.value.fwname  }}"
+      scope_members_vdom: "{{ item.value.vdom }}"
+    with_dict: "{{ packages }}"  
+
+
+

@@ -1,0 +1,40 @@
+--- 
+addresses: 
+  myapp.com: 
+    colour: 6
+    ip: "10.10.10.10/32"
+  secondapp.com: 
+    colour: 2
+    ip: "2.2.2.0/24"
+
+rules:
+  1:
+    adom: "root"
+    package_name: "FortiGate-VM64_root"
+    name: "Inbound to myapp"
+    action: "accept"
+    dst: "myapp.com"
+    src: "all"
+    dstint: "any"
+    srcint: "any"
+    log: "all"
+    service: "HTTPS"
+  2:
+    adom: "root"
+    package_name: "FortiGate-VM64_root"
+    name: "Inbound to secondapp.com"
+    action: "accept"
+    dst: "secondapp.com"
+    src: "all"
+    dstint: "any"
+    srcint: "any"
+    log: "all"
+    service: "HTTPS"
+
+packages:
+  1:
+    adom: "root"
+    package_name: "FortiGate-VM64_root"
+    fwname: "FortiGate-VM64"
+    vdom: "root"
+    

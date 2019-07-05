@@ -1,0 +1,12 @@
+[FortiManager]
+FMG_1 ansible_host=192.168.0.45
+
+[fmgr_api:vars]
+ansible_network_os=fortimanager
+ansible_user=admin
+ansible_password=admin
+ansible_become=no
+ansible_become_method=disable
+ansible_httpapi_use_ssl=true
+ansible_httpapi_validate_certs=false
+ansible_httpapi_timeout=300
